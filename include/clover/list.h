@@ -17,6 +17,7 @@ void        clv_list_foreach   (clv_list_t *list, clv_list_func_t callback);
 void        clv_list_clear     (clv_list_t *list, clv_list_func_t _free_ptr);
 void        clv_list_free      (clv_list_t *list, clv_list_func_t _free_ptr);
 
+clv_list_iter_t clv_list_get_at   (clv_list_t *list, size_t offset);
 clv_list_iter_t clv_list_get_head (clv_list_t *list);
 clv_list_iter_t clv_list_get_tail (clv_list_t *list);
 clv_list_iter_t clv_list_iter_get_prev (clv_list_iter_t iter);

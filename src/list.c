@@ -146,6 +146,22 @@ clv_list_free (clv_list_t *list, clv_list_func_t _free_ptr) {
 
 
 clv_list_iter_t
+clv_list_get_at (clv_list_t *list, size_t offset) {
+    if (list == NULL || offset >= list->count) {
+        return NULL;
+    }
+
+    struct clv_list_node *target = list->head;
+
+    for (size_t i = 0; i < offset; i++) {
+        target = target->next;
+    }
+
+    return target;
+}
+
+
+clv_list_iter_t
 clv_list_get_head (clv_list_t *list) {
     if (list == NULL) {
         return NULL;
