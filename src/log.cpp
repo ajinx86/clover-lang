@@ -1,4 +1,4 @@
-#include <clover/log.h>
+#include <clover/log.hpp>
 
 #include <stdio.h>
 #include <stdarg.h>

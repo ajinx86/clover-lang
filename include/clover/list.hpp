@@ -1,7 +1,7 @@
 #ifndef CLOVER_LIST_H_
 #define CLOVER_LIST_H_
 
-#include <clover/base.h>
+#include <clover/base.hpp>
 
 typedef struct clv_list clv_list_t;
 

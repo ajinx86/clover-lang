@@ -1,4 +1,4 @@
-#include <clover/list.h>
+#include <clover/list.hpp>
 
 #include <stdlib.h>
 #include <errno.h>
@@ -18,7 +18,7 @@ struct clv_list_node {
 
 static struct clv_list_node *
 _clv_list_make_node (void *ptr) {
-    struct clv_list_node *node = malloc (sizeof (*node));
+    struct clv_list_node *node = static_cast<struct clv_list_node *>(malloc (sizeof (*node)));
 
     if (node == NULL) {
         return NULL;
@@ -34,7 +34,7 @@ _clv_list_make_node (void *ptr) {
 
 struct clv_list *
 clv_list_new () {
-    clv_list_t *list = malloc (sizeof (*list));
+    clv_list_t *list = static_cast<clv_list_t *>(malloc (sizeof (*list)));
 
     if (list == NULL) {
         return NULL;

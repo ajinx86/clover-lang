@@ -1,20 +1,18 @@
 project(
   'clover',
-  ['c'],
+  ['cpp'],
   version: '0.1',
   license: 'GPL-3.0',
   meson_version: '>=1.0.0',
-  default_options: ['c_std=c11'],
+  default_options: ['cpp_std=c++17'],
 )
-
-add_global_arguments('-D_POSIX_C_SOURCE=200809L', language: 'c')
 
 subdir('src')
 subdir('include')
 
 clover_deps = []
 
-cc = meson.get_compiler('c')
+cc = meson.get_compiler('cpp')
 cfg = configuration_data()
 cfg.set('version', meson.project_version())
 cfg.set('buildinfo', '@0@ @1@'.format(cc.get_id(), cc.version()))

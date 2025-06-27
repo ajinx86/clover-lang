@@ -1,5 +1,5 @@
-#include <clover/source.h>
-#include <clover/log.h>
+#include <clover/source.hpp>
+#include <clover/log.hpp>
 
 #include <stddef.h>
 #include <stdlib.h>
@@ -41,7 +41,7 @@ read_file (clv_str file, char **out_data, size_t *out_length) {
         return false;
     }
 
-    data = malloc (length + 1);
+    data = static_cast<char *>(malloc (length + 1));
 
     if (data == NULL) {
         fclose (fp);
@@ -71,7 +71,7 @@ read_file (clv_str file, char **out_data, size_t *out_length) {
 
 clv_source_t *
 clv_source_new (clv_str file) {
-    clv_source_t *new_src = malloc (sizeof (*new_src));
+    clv_source_t *new_src = static_cast<clv_source_t *>(malloc (sizeof (*new_src)));
 
     if (new_src == NULL) {
         return NULL;

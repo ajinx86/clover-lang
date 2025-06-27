@@ -1,9 +1,9 @@
 #ifndef CLOVER_LEXER_H_
 #define CLOVER_LEXER_H_
 
-#include <clover/base.h>
-#include <clover/source.h>
-#include <clover/list.h>
+#include <clover/base.hpp>
+#include <clover/source.hpp>
+#include <clover/list.hpp>
 
 
 typedef enum {

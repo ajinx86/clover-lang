@@ -1,4 +1,4 @@
-#include <clover.h>
+#include <clover.hpp>
 
 #include <string.h>
 #include <stdlib.h>
@@ -185,7 +185,7 @@ dump_options () {
     clv_list_iter_t iter = clv_list_get_head (options.args);
 
     for (; iter != NULL; iter = clv_list_iter_get_next (iter)) {
-        clv_str arg = clv_list_iter_get_data (iter);
+        clv_str arg = static_cast<clv_str>(clv_list_iter_get_data (iter));
         clv_xlog (CLV_DEBUG, " %s", arg);
     }
 

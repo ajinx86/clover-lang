@@ -1,7 +1,7 @@
 #ifndef CLOVER_FILE_H_
 #define CLOVER_FILE_H_
 
-#include <clover/base.h>
+#include <clover/base.hpp>
 
 #include <stdio.h>
 

@@ -1,8 +1,8 @@
 clover_sources = files([
-  'main.c',
-  'log.c',
-  'list.c',
-  'source.c',
-  'lexer.c',
-  'compiler.c'
+  'main.cpp',
+  'log.cpp',
+  'list.cpp',
+  'source.cpp',
+  'lexer.cpp',
+  'compiler.cpp'
 ])

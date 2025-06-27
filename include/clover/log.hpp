@@ -1,7 +1,7 @@
 #ifndef CLOVER_LOG_H_
 #define CLOVER_LOG_H_
 
-#include <clover/base.h>
+#include <clover/base.hpp>
 
 #define CLV_LOG_NONE        (0)
 #define CLV_LOG_FORMAT      (1)

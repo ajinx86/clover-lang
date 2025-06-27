@@ -1,5 +1,5 @@
-#include <clover/lexer.h>
-#include <clover/log.h>
+#include <clover/lexer.hpp>
+#include <clover/log.hpp>
 
 #include <stdlib.h>
 #include <stdarg.h>
@@ -752,7 +752,7 @@ find_token (lexer_state_t *st) {
         return NULL;
     }
 
-    clv_token_t *token = malloc (sizeof (*token));
+    clv_token_t *token = static_cast<clv_token_t *>(malloc (sizeof (*token)));
 
     if (token == NULL) {
         clv_error ("failed to store token: %s", strerror (errno));
