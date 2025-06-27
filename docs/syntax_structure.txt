@@ -1,0 +1,27 @@
+// root
+// |- import_stmt
+// |- type_decl
+// |- let_decl
+// |- const_decl
+// |- fn_decl
+// |  |- params
+// |  |- type
+// |  |- block
+// |     |- let_decl
+// |     |- if_stmt
+// |     |- for_stmt
+// |     |- while_stmt
+// |     |- return_stmt
+
+// |- if_stmt
+// |  |- if_stmt
+// |  |- for_stmt
+// |  |- while_stmt
+// |- for_stmt
+// |  |- if_stmt
+// |  |- for_stmt
+// |  |- while_stmt
+// |- while_stmt
+//    |- if_stmt
+//    |- for_stmt
+//    |- while_stmt
