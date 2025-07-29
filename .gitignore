@@ -3,4 +3,4 @@
 .zed/
 .cache/
 .directory
-build/
+_build/

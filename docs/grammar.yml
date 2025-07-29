@@ -1,0 +1,44 @@
+# GRAMMAR SPECIFICATIONS
+# $           -> language primitive, like keywords, strings, bools, numbers, operators, etc.
+# (any)       -> match any of rules in the list
+# (repeat)    -> repeat rules until EOF
+# (optional)  -> match if it exists
+# '@'         -> match the symbol @
+
+
+ROOT:
+  - (any,repeat):
+    - IMPORT_STMT
+    - VAR_DECL
+    - CONST_DECL
+    - FUNC_DECL
+
+
+IMPORT_STMT:
+  - $KW_IMPORT
+  - $ID
+  - ';'
+
+
+TYPE_SPEC:
+  - $ID
+  - __TEMPLATE_SPEC
+  - __ARRAY_SPEC
+  - __NULLABLE_SPEC
+
+
+__TEMPLATE_SPEC:
+  - '<'
+  - TYPE_SPEC
+  - '>'
+
+
+__ARRAY_SPEC:
+  - '['
+  - $INT
+  - ']'
+
+
+__NULLABLE_SPEC:
+  - (optional):
+    - ';'

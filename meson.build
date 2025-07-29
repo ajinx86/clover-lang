@@ -2,22 +2,31 @@ project(
   'clover',
   ['cpp'],
   version: '0.1',
-  license: 'GPL-3.0',
+  license: 'LGPL-3.0',
   meson_version: '>=1.0.0',
   default_options: ['cpp_std=c++17'],
 )
 
-subdir('src')
-subdir('include')
+clover_sources = files([
+  'src/main.cpp',
+  'src/compiler.cpp',
+  'src/lexer.cpp',
+  'src/parser.cpp'
+])
+
+clover_includes = include_directories('include')
 
 clover_deps = []
 
-cc = meson.get_compiler('cpp')
-cfg = configuration_data()
-cfg.set('version', meson.project_version())
-cfg.set('buildinfo', '@0@ @1@'.format(cc.get_id(), cc.version()))
-cfg.set('hostinfo', build_machine.system())
-configure_file(configuration: cfg, input: 'version.h.in', output: 'version.h')
+cxx = meson.get_compiler('cpp')
+clover_version = meson.project_version()
+clover_buildinfo = '@0@ @1@ (@2@)'.format(cxx.get_id(), cxx.version(), build_machine.system())
+
+add_project_arguments(
+  f'-DCLOVER_VERSION="@clover_version@"',
+  f'-DCLOVER_BUILDINFO="@clover_buildinfo@"',
+  language: 'cpp'
+)
 
 executable(
   'clover',

@@ -1,4 +1,6 @@
 #!/bin/sh
 
-meson setup build --reconfigure
-ninja -C build
+BUILDDIR='_build'
+
+meson setup "$BUILDDIR" --reconfigure
+meson compile -C "$BUILDDIR"

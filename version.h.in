@@ -1,8 +1,0 @@
-#ifndef CLOVER_VERSION_H_
-#define CLOVER_VERSION_H_
-
-#define CLOVER_VERSION      "@version@"
-#define CLOVER_BUILDINFO    "@buildinfo@"
-#define CLOVER_HOSTINFO     "@hostinfo@"
-
-#endif /* CLOVER_VERSION_H_ */
