@@ -11,13 +11,11 @@
 #include <base/source.hpp>
 
 
-namespace clover
-{
+namespace clover {
 
     using std::operator""s;
 
-    namespace diagnostic
-    {
+    namespace diagnostic {
 
         struct Format {
 
@@ -31,8 +29,7 @@ namespace clover
         };
 
 
-        struct Location
-        {
+        struct Location {
             uint32_t offset;
             uint32_t line_offset;
             uint32_t length;
@@ -60,23 +57,17 @@ namespace clover
         })();
 
 
-        static void diag(const Format& f, const std::string& msg, const Location& l)
-        {
-            if (use_colors)
-            {
-                if (!l.scope.empty())
-                {
+        static void diag(const Format& f, const std::string& msg, const Location& l) {
+            if (use_colors) {
+                if (!l.scope.empty()) {
                     std::cerr << "\e[1m" << l.src.file() << ":" << l.line << ":" << l.column << "\e[0m:";
                     std::cerr << " " << l.scope;
                     std::cerr << "\n";
                 }
 
                 std::cerr << "\e[1m" << l.src.file() << ":" << l.line << ":" << l.column << "-" << (l.column + l.length) << ": " << f.fmt() << ": " << msg << "\n";
-            }
-            else
-            {
-                if (!l.scope.empty())
-                {
+            } else {
+                if (!l.scope.empty()) {
                     std::cerr << l.src.file() << ":" << l.line << ":" << l.column << "-" << (l.column + l.length);
                     std::cerr << ": " << l.scope;
                     std::cerr << ":\n";
@@ -118,23 +109,19 @@ namespace clover
         }
 
 
-        inline void info(const std::string& msg, const Location& l)
-        {
+        inline void info(const std::string& msg, const Location& l) {
             diag({ "info", "" }, msg, l);
         }
 
-        inline void note(const std::string& msg, const Location& l)
-        {
+        inline void note(const std::string& msg, const Location& l) {
             diag({ "note", "\e[1m35m" }, msg, l);
         }
 
-        inline void warn(const std::string& msg, const Location& l)
-        {
+        inline void warn(const std::string& msg, const Location& l) {
             diag({ "warning", "\e[1;33m" }, msg, l);
         }
 
-        inline void error(const std::string& msg, const Location& l)
-        {
+        inline void error(const std::string& msg, const Location& l) {
             diag({ "error", "\e[1;31m" }, msg, l);
         }
 

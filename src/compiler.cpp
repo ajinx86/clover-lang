@@ -27,10 +27,7 @@
 // }
 
 
-bool clover::compile(const std::vector<std::string>& input_files,
-                     const std::string& output,
-                     const clover::BuildFlags& flags)
-{
+bool clover::compile(const std::vector<std::string>& input_files, const std::string& output, BuildFlags& flags) {
     CompilerState st(input_files);
 
     for (auto& unit : st.units) {

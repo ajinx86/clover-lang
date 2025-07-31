@@ -1,7 +1,6 @@
 #pragma once
 
-namespace checks
-{
+namespace checks {
 
     static inline bool isalpha(char ch) {
         return ((ch >= 'a' && ch <= 'z') ||
