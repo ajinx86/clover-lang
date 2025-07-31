@@ -13,8 +13,6 @@
 
 namespace clover {
 
-    using std::operator""s;
-
     namespace diagnostic {
 
         struct Format {
@@ -23,7 +21,7 @@ namespace clover {
             std::string color;
 
             inline std::string fmt() const {
-                return color + level + "\e[0m"s;
+                return color + level + "\e[0m";
             }
 
         };
