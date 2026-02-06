@@ -1,10 +1,9 @@
 #include <stdio.h>
 #include <stdarg.h>
-#include <stdlib.h>
 #include <unistd.h>
-#include <string.h>
 
 #include "cl-log.h"
+#include "cl-colors.h"
 
 
 CL_TYPE(LogInfo) {
@@ -22,27 +21,6 @@ static const LogInfo LEVELS[] = {
 };
 
 
-static bool use_colors(int fd) {
-    static bool initialized = false;
-    static bool color_always = false;
-    static bool term_color = false;
-
-    if (!initialized) {
-        char *env_term = getenv("TERM");
-        term_color = env_term && (
-            strstr(env_term, "xterm") ||
-            strstr(env_term, "-256color"));
-
-        char *env_colors = getenv("CL_COLORS");
-        color_always = env_colors && strcmp(env_colors, "1") == 0;
-
-        initialized = true;
-    }
-
-    return color_always || (isatty(fd) && term_color);
-}
-
-
 void __cl_log(LogLevel level, str_t scope, str_t msg, ...) {
     if (level < 0 || level >= __CL_LOG_MAX) {
         dprintf(STDERR_FILENO, "%s: invalid log level: %d\n", __func__, level);
@@ -55,14 +33,14 @@ void __cl_log(LogLevel level, str_t scope, str_t msg, ...) {
     const int fd = (level >= CL_LOG_ERROR) ? STDERR_FILENO : STDOUT_FILENO;
 
     if (scope) {
-        if (use_colors(fd)) {
+        if (cl_fd_use_colors(fd)) {
             dprintf(fd, "\e[1m%s:\e[0m ", scope);
         } else {
             dprintf(fd, "%s: ", scope);
         }
     }
 
-    if (use_colors(fd)) {
+    if (cl_fd_use_colors(fd)) {
         dprintf(fd, "\e[%sm%s:\e[0m ", info.fmt, info.str);
     } else {
         dprintf(fd, "%s: ", info.str);

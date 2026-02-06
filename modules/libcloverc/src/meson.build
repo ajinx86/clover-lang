@@ -3,4 +3,5 @@ libcloverc_src = files([
   'cl-log.c',
   'cl-source.c',
   'cl-vector.c',
+  'cl-colors.c',
 ])
