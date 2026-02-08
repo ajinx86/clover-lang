@@ -61,7 +61,7 @@ static void options_init(Options *options, int argc, str_t argv[]) {
     options->input_files = vector_new();
 
     if (!options->input_files) {
-        cl_fatal("%s", strerror(errno));
+        cl_fatal("%s\n", strerror(errno));
     }
 
     bool end_options = false;
@@ -80,7 +80,7 @@ static void options_init(Options *options, int argc, str_t argv[]) {
             show_version(program);
         } else if (strcmpeq(curr, "-o")) {
             if (i + 1 >= argc) {
-                cl_error("missing argument for option: -o");
+                cl_error("missing argument for option: -o\n");
                 exit(EXIT_FAILURE);
             }
 
