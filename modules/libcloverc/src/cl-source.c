@@ -30,6 +30,7 @@ static bool _read_file(str_t path, char **out_text, size_t *out_size) {
         return false;
     }
 
+    size = ftell(fp);
     rewind(fp);
 
     // allocate text buffer
@@ -45,9 +46,9 @@ static bool _read_file(str_t path, char **out_text, size_t *out_size) {
     // read text from file
 
     size_t total = 0;
+    size_t count = 0;
 
-    for (size_t count = 0; count > 0; ) {
-        count = fread(&text[total], 1, 1024, fp);
+    while ((count = fread(&text[total], 1, 1024, fp)) > 0) {
         total += count;
     }
 
@@ -131,10 +132,6 @@ size_t source_lnlen(Source *self, size_t offset) {
 
 
 int source_cmp(Source *self, size_t offset, size_t length, str_t str) {
-    if (offset + length >= self->length) {
-        return length;
-    }
-
     return strncmp(self->text + offset, str, length);
 }
 
