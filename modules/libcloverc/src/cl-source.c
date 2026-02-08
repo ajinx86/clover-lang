@@ -80,6 +80,7 @@ Source *source_new(str_t path) {
     if (!_read_file(path, (char **)&new_source->text, &new_source->length)) {
         free(CL_VOIDPTR(new_source->path));
         free(CL_VOIDPTR(new_source));
+        return NULL;
     }
 
     return new_source;
