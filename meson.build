@@ -28,6 +28,9 @@ if get_option('buildtype') == 'debug'
   add_project_arguments('-DDEBUG=1', language: 'c')
 endif
 
+# required system libraries
+m_lib = cc.find_library('m', required: true)
+
 # clover compiler lib
 subdir('modules/libcloverc')
 

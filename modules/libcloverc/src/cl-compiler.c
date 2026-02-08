@@ -6,6 +6,7 @@
 #include "cl-compiler.h"
 #include "cl-source.h"
 #include "cl-log.h"
+#include "cl-types.h"
 
 
 bool cl_lex(Source *src, Vector *tokens);
@@ -44,8 +45,21 @@ static Unit *unit_new(str_t file) {
 
 
 static bool unit_compile(Unit *self) {
-    cl_debug("%s: not implemented\n", __func__);
-    return false;
+    if (!cl_lex(self->src, self->tokens)) {
+        return false;
+    }
+
+#ifdef DEBUG
+    /* dump tokens */
+    for (size_t i = 0; i < self->tokens->count; i++) {
+        Token *tk = vector_at(self->tokens, i);
+
+        fwrite(source_get(self->src, tk->offset), 1, tk->length, stdout);
+        putchar('\n');
+    }
+#endif /* !DEBUG */
+
+    return true;
 }
 
 

@@ -17,6 +17,8 @@
 
 #define CL_VOIDPTR(ptr) ((void *)ptr)
 
+#define CL_N_ELEMS(arr) (sizeof(arr) / sizeof(*arr))
+
 /* == auxiliary types == */
 
 /* String */
