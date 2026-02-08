@@ -1,9 +1,17 @@
 #ifndef CL_ANNOTATION_H_
 #define CL_ANNOTATION_H_
 
+#include <stddef.h>
+
 #ifdef _MSC_VER
 #define __attribute__(...) /* ignore */
 #endif /* _MSC_VER */
+
+#ifdef __GNUC__
+#define __cl_always_inline inline __attribute__((always_inline))
+#else
+#define __cl_always_inline inline
+#endif /* !__GNUC__ */
 
 /**
  * Marks a parameter that is a pointer used as input
@@ -22,6 +30,11 @@
  * is taken by the called function.
  */
 #define __Owned
+
+/**
+ * Marks a function
+ */
+#define __Inline __cl_always_inline
 
 /**
  * Marks a function that never returns NULL.
