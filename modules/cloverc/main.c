@@ -62,6 +62,7 @@ static void options_init(Options *options, int argc, str_t argv[]) {
 
     if (!options->input_files) {
         cl_fatal("%s\n", strerror(errno));
+        exit(EXIT_FAILURE);
     }
 
     bool end_options = false;
