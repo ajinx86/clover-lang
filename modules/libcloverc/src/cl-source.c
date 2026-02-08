@@ -18,12 +18,14 @@ static bool _read_file(str_t path, char **out_text, size_t *out_size) {
     char *text = NULL;
 
     if (!fp) {
+        cl_error("failed to open file: %s\n", strerror(errno));
         return false;
     }
 
     // detect file size
 
     if (fseek(fp, 0, SEEK_END) != 0) {
+        cl_error("failed to open file: %s\n", strerror(errno));
         fclose(fp);
         return false;
     }
@@ -35,6 +37,7 @@ static bool _read_file(str_t path, char **out_text, size_t *out_size) {
     text = malloc(size + 1);
 
     if (!text) {
+        cl_error("out of memory!\n");
         fclose(fp);
         return false;
     }
