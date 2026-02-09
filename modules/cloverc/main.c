@@ -58,7 +58,7 @@ static void options_init(Options *options, int argc, str_t argv[]) {
         show_help(program);
     }
 
-    options->input_files = vector_new();
+    options->input_files = vector_new(sizeof(str_t));
 
     if (!options->input_files) {
         cl_fatal("%s\n", strerror(errno));
@@ -71,7 +71,7 @@ static void options_init(Options *options, int argc, str_t argv[]) {
         str_t curr = argv[i];
 
         if (!isoption(curr) || end_options) {
-            vector_push(options->input_files, CL_VOIDPTR(curr));
+            vector_push(options->input_files, CL_VOIDPTR(&curr));
             continue;
         }
 

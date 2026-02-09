@@ -8,7 +8,14 @@
 #include <errno.h>
 
 
-#define CL_VECTOR_DATA_SIZE sizeof(void *)
+static __Inline void *_vector_getaddr(Vector *self, size_t index) {
+    return self->data + index * self->item_size;
+}
+
+
+static __Inline void **_vector_getaddrp(Vector *self, size_t index) {
+    return (void **)(self->data + index * self->item_size);
+}
 
 
 static bool _vector_enlarge(Vector *self) {
@@ -19,15 +26,15 @@ static bool _vector_enlarge(Vector *self) {
     size_t increase_amount = self->capacity * 100 / CL_VECTOR_GROWTH_PERCENT;
     size_t new_capacity = self->capacity + increase_amount;
 
-    size_t old_size = self->capacity * CL_VECTOR_DATA_SIZE;
-    size_t new_size = new_capacity * CL_VECTOR_DATA_SIZE;
+    size_t old_size = self->capacity * self->item_size;
+    size_t new_size = new_capacity * self->item_size;
 
     if (new_size < old_size) {
         cl_debug("%s: maximum capacity reached\n", __func__);
         return false;
     }
 
-    void **tmp = realloc(self->data, new_size);
+    void *tmp = realloc(self->data, new_size);
 
     if (!tmp) {
         cl_debug("%s: %s\n", __func__, strerror(errno));
@@ -41,7 +48,7 @@ static bool _vector_enlarge(Vector *self) {
 }
 
 
-Vector *vector_new() {
+Vector *vector_new(size_t item_size) {
     Vector *new_vector = malloc(sizeof(Vector));
 
     if (!new_vector) {
@@ -49,57 +56,80 @@ Vector *vector_new() {
         return NULL;
     }
 
-    void *data = calloc(CL_VECTOR_INITIAL_CAPACITY, CL_VECTOR_DATA_SIZE);
+    void *data = calloc(CL_VECTOR_INITIAL_CAPACITY, item_size);
 
     if (!data) {
-        free(new_vector);
         cl_debug("%s: %s\n", __func__, strerror(errno));
+        free(new_vector);
         return NULL;
     }
 
     new_vector->data = data;
     new_vector->count = 0;
     new_vector->capacity = CL_VECTOR_INITIAL_CAPACITY;
+    new_vector->item_size = item_size;
 
     return new_vector;
 }
 
 
-bool vector_push(Vector *self, void *ptr) {
+bool vector_push(Vector *self, void *data) {
     if (!_vector_enlarge(self)) {
         return false;
     }
 
-    self->data[self->count] = ptr;
+    void *data_addr = _vector_getaddr(self, self->count);
+    memcpy(data_addr, data, self->item_size);
     self->count++;
 
     return true;
 }
 
 
-void *vector_pop(Vector *self) {
+bool vector_pop(Vector *self, __Out __Nullable void *data) {
     if (self->count == 0) {
-        return NULL;
+        return false;
     }
 
     self->count--;
 
-    return self->data[self->count];
+    if (data) {
+        void *data_addr = _vector_getaddr(self, self->count);
+        memcpy(data, data_addr, self->item_size);
+    }
+
+    return true;
 }
 
 
-void *vector_at(Vector *self, size_t index) {
+void *vector_get(Vector *self, size_t index) {
     if (index >= self->count) {
         return NULL;
     }
 
-    return self->data[index];
+    return _vector_getaddr(self, index);
+}
+
+
+void **vector_getp(Vector *self, size_t index) {
+    if (index >= self->count) {
+        return NULL;
+    }
+
+    return _vector_getaddrp(self, index);
 }
 
 
 void vector_iter(Vector *self, VectorCallbackFn callback) {
     for (size_t i = 0; i < self->count; i++) {
-        callback(self->data[i]);
+        callback(_vector_getaddr(self, i));
+    }
+}
+
+
+void vector_iterp(Vector *self, VectorCallbackFn callback) {
+    for (size_t i = 0; i < self->count; i++) {
+        callback(_vector_getaddrp(self, i));
     }
 }
 
@@ -109,7 +139,7 @@ void vector_trim(Vector *self) {
         return;
     }
 
-    void **tmp = realloc(self->data, self->count * CL_VECTOR_DATA_SIZE);
+    void *tmp = realloc(self->data, self->count * self->item_size);
 
     if (!tmp) {
         cl_debug("%s: %s\n", __func__, strerror(errno));

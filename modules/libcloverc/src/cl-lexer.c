@@ -1,5 +1,3 @@
-#include <stdlib.h>
-
 #include "cl-annotation.h"
 
 #include "cl-log.h"
@@ -643,22 +641,14 @@ static bool find_token(Lexer *lex, Token *out_tk) {
 bool cl_lex(Source *src, Vector *tokens) {
     Lexer lex = { src, 0, 0, 0, 1, 1, false };
 
-    Token *tk;
+    Token tk;
 
     while (!_is_eof(&lex)) {
-        tk = malloc(sizeof(Token));
-
-        if (!tk) {
-            cl_error("out of memory!\n");
-            return false;
-        }
-
-        if (!find_token(&lex, tk)) {
-            free(tk);
+        if (!find_token(&lex, &tk)) {
             break;
         }
 
-        if (!vector_push(tokens, tk)) {
+        if (!vector_push(tokens, &tk)) {
             cl_error("out of memory!\n");
             return false;
         }

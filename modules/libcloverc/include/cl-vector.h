@@ -9,19 +9,22 @@
 
 
 CL_TYPE(Vector) {
-    void **data;
+    void *data;
     size_t count;
     size_t capacity;
+    size_t item_size;
 };
 
 typedef void (*VectorCallbackFn)(void *user_data);
 
 
-Vector *vector_new  () __NoDiscard;
-bool    vector_push (Vector *self, void *ptr);
-void   *vector_pop  (Vector *self);
-void   *vector_at   (Vector *self, size_t index);
-void    vector_iter (Vector *self, VectorCallbackFn iter);
+Vector *vector_new  (size_t item_size) __NoDiscard;
+bool    vector_push (Vector *self, void *data);
+bool    vector_pop  (Vector *self, __Out __Nullable void *data);
+void   *vector_get  (Vector *self, size_t index);
+void  **vector_getp (Vector *self, size_t index);
+void    vector_iter (Vector *self, VectorCallbackFn callback);
+void    vector_iterp(Vector *self, VectorCallbackFn callback);
 void    vector_trim (Vector *self);
 void    vector_free (Vector *self);
 
